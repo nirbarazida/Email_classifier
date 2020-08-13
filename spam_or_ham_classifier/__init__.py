@@ -9,7 +9,8 @@ import os
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('HAN_OR_SPAM')  #: todo create environment variables
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///web_database/spam_or_ham_db'
 db = SQLAlchemy(app)
 
