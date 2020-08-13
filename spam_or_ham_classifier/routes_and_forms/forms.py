@@ -5,7 +5,7 @@ from spam_or_ham_classifier.web_database.ORM import UserTable
 
 
 
-class RegistrationForm(FlaskForm):  # todo: create getters for the user in the route registration (lecture 6)
+class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=15)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=20)])
     confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password')])

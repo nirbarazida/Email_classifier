@@ -49,7 +49,7 @@ class EmailClassifiedTable(db.Model):
     """
     __tablename__ = 'email'
     id = db.Column(db.Integer(), primary_key=True)
-    label = db.Column(db.String(10), nullable=True, unique=False) #todo : change nullable to false
+    label = db.Column(db.String(10), nullable=False, unique=False)
     email_title = db.Column(db.String(16000000), nullable=True)
     email_content = db.Column(db.String(16000000), nullable=False)
     data_classified = db.Column(db.DateTime())
