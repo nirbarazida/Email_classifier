@@ -36,7 +36,6 @@ Nir Barazida
 - Classifier:\
 ![screenshot_3](https://github.com/nirbarazida/email_classifier/blob/master/documentation/screenshot_3.png)
 
-
 #Sources:
 - [Corey Schafer tutorial](https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=1)
 - [Flask documentation](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
