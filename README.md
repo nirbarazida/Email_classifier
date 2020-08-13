@@ -27,13 +27,19 @@ Nir Barazida
 
 # Website Screenshots
 
-- Homepage for visitors:\
+- **Homepage for visitors**:
+
+
 ![screenshot_1](https://github.com/nirbarazida/email_classifier/blob/master/documentation/screenshot_1.png)
 
-- Homepage for users:\
+- **Homepage for users**:
+
+
 ![screenshot_2](https://github.com/nirbarazida/email_classifier/blob/master/documentation/screenshot_2.png)
 
-- Classifier:\
+- **Classifier**:
+
+
 ![screenshot_3](https://github.com/nirbarazida/email_classifier/blob/master/documentation/screenshot_3.png)
 
 # Sources:
