@@ -12,7 +12,8 @@ First I've used '**CountVectorizer**' from '**Sklearn**' to create Vectorize the
 After trying different prediction models the one how to produce the best score with 97% of precision is '**Random Forest Classifier**'.\
 To prefect the classifier I have used '**GridSearchCV**' from 'Sklearn' to find the best parameters on the train dataset.\
 Then, to deploy the Classifier to an online server I have used the '**Pickle**' package to dump ('zip') them.\
-When the website is activated the models are loaded and can be used to create prediction in last than 1 sec!
+When the application is activated the models are loaded and can be used to create prediction in last than 1 sec!\
+One of the latest features that was added to the application is a **API** request options. Can be used as **single request** with param or as multi request using **json file**.
 
 Moreover, I have created an **SQLite** database for user accounts, classified email archives, and API statistics.\
 For that, I have mainly used 'flask' extensions
@@ -20,12 +21,12 @@ For that, I have mainly used 'flask' extensions
 I have deployed the model to a Linux server provided by 'Linode'.\
 To do so I have used '**Nginx**', '**Gunicorn**' ,'**flask**' extensions and **bash scripting**
 
-Hope you enjoy my website and wish you good luck,
+Hope you enjoy my application and wish you good luck,
 
 yours,
 Nir Barazida
 
-# Website Screenshots
+# Application Screenshots
 
 - **Homepage for visitors**:
 

@@ -1,5 +1,5 @@
-from spam_or_ham_classifier import db
-from spam_or_ham_classifier import login_manager
+from email_classifier.spam_or_ham_classifier import db
+from email_classifier.spam_or_ham_classifier import login_manager
 
 
 @login_manager.user_loader
@@ -13,7 +13,6 @@ class UserTable(db.Model):
     relationship:
         Email - one to many
     """
-
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), nullable=False, unique=True)
@@ -40,12 +39,12 @@ class UserTable(db.Model):
         except AttributeError:
             raise NotImplementedError('No `id` attribute - override `get_id`')
 
+
 class EmailClassifiedTable(db.Model):
     """
     store all the new e-mail prediction of the model.
     relationship:
         UserTable - one to many
-
     """
     __tablename__ = 'email'
     id = db.Column(db.Integer(), primary_key=True)
@@ -54,5 +53,6 @@ class EmailClassifiedTable(db.Model):
     email_content = db.Column(db.String(16000000), nullable=False)
     data_classified = db.Column(db.DateTime())
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
 
 db.create_all()
