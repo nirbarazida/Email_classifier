@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo,optional, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, optional, ValidationError
 from spam_or_ham_classifier.web_database.ORM import UserTable
-
 
 
 class RegistrationForm(FlaskForm):
@@ -27,7 +26,8 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
 
+
 class ClassificationForm(FlaskForm):
     email_title = StringField('Title', validators=[optional()])
-    email_cont = TextAreaField('Content',validators=[DataRequired()])
+    email_cont = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Classify')

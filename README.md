@@ -10,8 +10,8 @@ I this case I've used the AUEB predictions as the true label of the data and cla
 
 First I've used '**CountVectorizer**' from '**Sklearn**' to create Vectorize the words in the dataset into 500 different features that were created from 1-2 words.\
 After trying different prediction models the one how to produce the best score with 97% of precision is '**Random Forest Classifier**'.\
-To prefect the classifier I have used GridSearchCV from 'Sklearn' to find the best parameters on the train dataset.\
-Then, to deploy the Classifier to an online server I have used the 'Pickle' package to 'zip' them.\
+To prefect the classifier I have used '**GridSearchCV**' from 'Sklearn' to find the best parameters on the train dataset.\
+Then, to deploy the Classifier to an online server I have used the '**Pickle**' package to dump ('zip') them.\
 When the website is activated the models are loaded and can be used to create prediction in last than 1 sec!
 
 Moreover, I have created an **SQLite** database for user accounts, classified email archives, and API statistics.\

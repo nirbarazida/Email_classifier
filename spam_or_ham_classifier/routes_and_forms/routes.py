@@ -1,12 +1,11 @@
-from flask import render_template, url_for, flash, redirect, request
-from spam_or_ham_classifier.routes_and_forms.forms import RegistrationForm, LoginForm, ClassificationForm
-from spam_or_ham_classifier import app, bcrypt
-from spam_or_ham_classifier.web_database.ORM import UserTable, EmailClassifiedTable
-from spam_or_ham_classifier import db
-from datetime import datetime
+from flask import render_template, url_for, flash, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import datetime
 from spam_or_ham_classifier.routes_and_forms._general_functions import statistics
 from spam_or_ham_classifier.classification_model import predict_SOH
+from spam_or_ham_classifier.routes_and_forms.forms import RegistrationForm, LoginForm, ClassificationForm
+from spam_or_ham_classifier import app, bcrypt, db
+from spam_or_ham_classifier.web_database.ORM import UserTable, EmailClassifiedTable
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -25,23 +24,49 @@ def home():
 
 
 @app.route("/classifier", methods=['GET', 'POST'])
-@login_required
+# @login_required # TODO: how to connect as user using request??
 def classifier():
-    form = ClassificationForm()
-    page = request.args.get('page', 1, type=int)
-    classified = EmailClassifiedTable.query.filter_by(user=current_user).order_by(
-        EmailClassifiedTable.data_classified.desc()).paginate(page=page, per_page=5)
-    if form.validate_on_submit():
-        label = 'Ham' if predict_SOH(form.email_cont.data) == 0 else 'Spam'
-        new_classification = EmailClassifiedTable(email_title=form.email_title.data, email_content=form.email_cont.data,
-                                                  user=current_user, label=label,
-                                                  data_classified=datetime.now())
-        db.session.add(new_classification)
-        db.session.commit()
-        flash(f'The email is : Ham', 'success') if label == 'Ham' else flash(f'The email is : Spam', 'danger')
-        return redirect(url_for('classifier'))
-    return render_template('classifier.html', title='Classifier', form=form, classified=classified,
-                           statistics=statistics())
+    # Validate the request body contains JSON - works as API
+    if request.is_json:
+
+        # Parse the JSON into a Python dictionary
+        req = request.get_json()
+
+        # Create a prediction json file
+        y_pred = {'label': []}
+
+        # phrs all email in json file and make a prediction
+        for index in req:
+            y_pred[index] = {}
+            y_pred[index]['content'] = req[index]['content']
+            y_pred[index]['label'] = 'Ham' if predict_SOH(req[index]['content']) == 0 else 'Spam'
+            y_pred['label'].append(y_pred[index]['label'])
+        return jsonify(y_pred)
+
+    # API single prediction
+    try:
+        content = str(request.args.get('content'))
+        return 'Ham' if predict_SOH(content) == 0 else 'Spam'
+
+    # using application form
+    except:
+        form = ClassificationForm()
+        page = request.args.get('page', 1, type=int)
+        classified = EmailClassifiedTable.query.filter_by(user=current_user).order_by(
+            EmailClassifiedTable.data_classified.desc()).paginate(page=page, per_page=5)
+        if form.validate_on_submit():
+            label = 'Ham' if predict_SOH(form.email_cont.data) == 0 else 'Spam'
+            new_classification = EmailClassifiedTable(email_title=form.email_title.data,
+                                                      email_content=form.email_cont.data,
+                                                      user=current_user, label=label,
+                                                      data_classified=datetime.now())
+            db.session.add(new_classification)
+            db.session.commit()
+            flash(f'The email is : Ham', 'success') if label == 'Ham' else flash(f'The email is : Spam', 'danger')
+
+            return redirect(url_for('classifier'))
+        return render_template('classifier.html', title='Classifier', form=form, classified=classified,
+                               statistics=statistics())
 
 
 @app.route("/register", methods=['GET', 'POST'])
