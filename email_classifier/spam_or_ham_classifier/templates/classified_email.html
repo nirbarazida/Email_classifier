@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <article class="media content-section">
+      <div class="media-body">
+        <h2><a class="article-title">{{ clf_email.email_title }}</a></h2>
+         <small class="text-muted">{{ clf_email.data_classified.strftime('%Y-%m-%d %H:%M') }}</small>
+          <h5><a class="article-title" >Email was classified as: {{ clf_email.label }}</a></h5>
+        <p class="article-content">{{ clf_email.email_content }}</p>
+      </div>
+    </article>
+
+{% endblock content %}

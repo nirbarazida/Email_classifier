@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Welcome To The Email Classifier</h1>
+<div class="content-section">
+    <p>This Classifier was created as part of a home assignment at the Israeli Tech Challenge Bootcamp.
+        The main purpose of this classifier is to determine if an email is spam or ham.
+        </p>
+        <p>
+        The model predictions are based on the 'Enron' database provided by the NLP group at the Athens University of Economics and Business <a href="http://nlp.cs.aueb.gr/software.html">(AUEB)</a>.
+        I've use this data to train a spam filter, using a processed version of the Enron dataset including labels for "ham" (non-spam) and spam emails.
+        I this case I've use the AUEB predictions as the true label of the data and classified the data for ham or spam myself.
+    </p>
+    <P>
+        First I've used 'CountVectorizer' from 'Sklearn' to create Vectorize the words in the dataset into 500 different features that were created from 1-2 words.
+        After trying different prediction models the one how to produce the best score with 97% of precision is 'Random Forest Classifier'.
+        To prefect the classifier I have used GridSearchCV from 'Sklearn' to find the best parameters on the train dataset.
+    </P>
+    <P>
+        Then, to deploy them to this website I have used 'Pickle' package to 'zip' them. When the website is activated the models are loaded and can be used to create prediction in last than 1 sec!
+    </P>
+    <P>
+        Hope you enjoy my website and wish you good luck,
+    </P>
+
+    <p>
+        yours,
+    </p>
+    <p>
+        Nir Barazida
+    </p>
+</div>
+{% endblock content %}
+
+{% block content_top_right %}
+    {% if not current_user.is_authenticated %}
+    <!--content-section - location  on the top right-->
+        <div class="content-section">
+            <form method="POST" action="">
+                {{form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <div class="form-group">
+                        {{form.username.label(class="form-control-label" )}}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password.label(class="form-control-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                <div class="form-check">
+                    {{form.remember(class="form-check-input")}}
+                    {{form.remember.label(class="form-check-label")}}
+                </div>
+                </fieldset>
+                <div class="form-group">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div>
+                <small class="text-muted ml-2">
+                    <a href="#">Forgot Password?</a>
+                </small>
+            </form>
+        </div>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
+            </small>
+        </div>
+    {% endif %}
+
+  {% for classify in classified %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ classify.user }}</a>
+<!--              <small class="text-muted">{{ classify.label }}</small>-->
+            </div>
+            <h2><a class="article-title" href="#">{{ classify.email_title }}</a></h2>
+            <p class="article-content">{{ classify.email_content }}</p>
+          </div>
+        </article>
+  {% endfor %}
+{% endblock content_top_right %}
