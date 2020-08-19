@@ -127,5 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-spam_or_ham_db

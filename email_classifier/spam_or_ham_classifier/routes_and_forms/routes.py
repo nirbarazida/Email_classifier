@@ -35,6 +35,7 @@ def home():
 
 @app.route("/classifier", methods=['GET', 'POST'])
 # @login_required # TODO: how to connect as user using request??
+# todo: add 'spam_or_ham_db' to git ignore
 def classifier():
     """
     Email classifier can be used with 3 methodes:
