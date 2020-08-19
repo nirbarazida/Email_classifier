@@ -1,1 +1,1 @@
-web: python /email_classifier/main.py
+web: python main.py
