@@ -4,11 +4,11 @@ from sklearn.feature_extraction.text import CountVectorizer
 import string
 
 # open pickled vectorizer model - create 500 features of words based on the model_fit parameters
-filename_vectorizer_model_for_SOH = 'vectorizer_model_for_SOH.pkl'
+filename_vectorizer_model_for_SOH = 'email_classifier/vectorizer_model_for_SOH.pkl'
 loaded_vectorizer_model_for_SOH = pickle.load(open(filename_vectorizer_model_for_SOH, 'rb'))
 
 # open pickled Random Forest Model model
-filename_rfc_model_for_SOH = 'rfc_model_for_SOH.pkl'
+filename_rfc_model_for_SOH = 'email_classifier/rfc_model_for_SOH.pkl'
 loaded_rfc_model_for_SOH = pickle.load(open(filename_rfc_model_for_SOH, 'rb'))
 
 # Create new model based on the feature_names of the trained model
