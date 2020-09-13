@@ -34,7 +34,7 @@ def home():
 
 
 @app.route("/classifier", methods=['GET', 'POST'])
-# @login_required # TODO: how to connect as user using request??
+@login_required
 # todo: add 'spam_or_ham_db' to git ignore
 def classifier():
     """
@@ -74,26 +74,20 @@ def classifier():
     else:
         form = ClassificationForm()
 
-        # todo : #1 un-mute after fixing login problem
 
         # all the emails that the current_user have classified - will show them in this page.
-        # page = request.args.get('page', 1, type=int)
-        # classified = EmailClassifiedTable.query.filter_by(user=current_user).order_by(
-        #     EmailClassifiedTable.data_classified.desc()).paginate(page=page, per_page=5)
-
-        # todo : #1 delete after fixing login problem
-        classified = None
-        user = UserTable.query.filter_by(username='admin').first()  # current_user
+        page = request.args.get('page', 1, type=int)
+        classified = EmailClassifiedTable.query.filter_by(user=current_user).order_by(
+            EmailClassifiedTable.data_classified.desc()).paginate(page=page, per_page=5)
 
         if form.validate_on_submit():
             # make a prediction to the form input email
             label = predict_SOH(form.email_cont.data)
 
-            # todo : #1 after fixing login problem - change user to current_user
-            # create EmailClassifiedTable instance and commite to the database
+            # create EmailClassifiedTable instance and commit to the database
             new_classification = EmailClassifiedTable(email_title=form.email_title.data,
                                                       email_content=form.email_cont.data,
-                                                      user=user, label=label,
+                                                      user=current_user, label=label,
                                                       data_classified=datetime.now())
             db.session.add(new_classification)
             db.session.commit()
